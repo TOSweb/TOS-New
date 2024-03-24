@@ -1,5 +1,5 @@
-/* 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap'); */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
@@ -494,6 +494,7 @@ ul, li {
     color: #fff;
     /* border-color : #ff9800; */
     background-color:var(--yellow-color);
+    border: none;
 }
 
 .services .services-item {
@@ -903,9 +904,14 @@ ul, li {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     background-color: var(--white);
     border-radius: 20px;
+    width: 90%;
 }
 .library-card{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1%;
 }
 .library .library-filter {
     /* padding: 0 15px; */

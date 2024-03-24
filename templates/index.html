@@ -70,17 +70,6 @@
         </div>
     </section>
 
-    <section class="about-section">
-        <div class="about-container container">
-            <h1>About Us</h1>
-            <p>
-                The One Solution, we are dedicated to transforming your digital dreams into reality. As a pioneering
-                company at the forefront of Web Development, Digital Marketing, and Branding, our mission is to deliver
-                bespoke solutions that resonate with your unique business needs and aspirations.
-            </p>
-        </div>
-    </section>
-
     <section class="about-card-section">
         <div class="about-card container">
             <div class="about-card-content">
@@ -93,8 +82,7 @@
                 <button class="primary-btn"><a href="#">Know more</a></button>
             </div>
             <div class="about-card-image">
-                <img src="{% static 'icons/big-logo.svg' %}" alt="logo">
-                <img src="{% static 'icons/big-logo-bottom.svg' %}" alt="logo">
+                    
             </div>
         </div>
     </section>
@@ -109,29 +97,21 @@
     </section>
     <section class="services-section">
         <div class="services-container services container">
-
             <div class="services-filter">
-                <!-- <span class="filter-item active" data-filter="all">All</span> -->
-                <span class="filter-item active " data-filter="marketing">Marketing Consultancy</span>
-                <span class="filter-item" data-filter="web">Web Consultancy</span>
-                <span class="filter-item" data-filter="branding">Brand Consultancy</span>
+                {% for service in services %}
+                <span class="filter-item {% if forloop.first %}active{% endif %}" onclick="openTab(event, '{{ service.slug }}')">{{ service.Service }}</span>
+                {% endfor %}
             </div>
-
             <div class="service-card">
-                <!-- gallery item start -->
-                <div class="services-item marketing ">
+                {% for service in services %}
+                <div class="services-item" id="{{ service.slug }}" {% if forloop.first %}style="display:block"{% endif %}>
                     <div class="services-item-inner">
                         <div class="service-img-container">
-                            <img src="{% static 'service-image.png' %}" alt="service-image">
+                            <img src="{{ service.image1x.url }}" alt="service-image">
                         </div>
                         <div class="service-content">
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <p>
-                                The One Solution, we are dedicated to transforming your digital dreams into reality. As
-                                a pioneering company at the forefront of web development, digital marketing, and
-                                branding, our mission is to deliver bespoke solutions that resonate with your unique
-                                business needs and aspirations.
-                            </p>
+                            <h1>{{ service.Title_of_page }}</h1>
+                        <p>{{ service.service_short }}</p>
                             <div>
                                 <button class="secondary-btn"><a href="#">Explore</a></button>
                                 <button class="secondary-btn"><a href="#">Call Now</a></button>
@@ -139,51 +119,11 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- services item end -->
-                <!-- services item start -->
-                <div class="services-item web">
-                    <div class="services-item-inner">
-                        <div class="service-img-container">
-                            <img src="{% static 'images/service-image.png' %}" alt="service-image">
-                        </div>
-                        <div class="service-content">
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <p>
-                                The One Solution, we are dedicated to transforming your digital dreams into reality. As
-                                a pioneering company at the forefront of web development, digital marketing, and
-                                branding, our mission is to deliver bespoke solutions that resonate with your unique
-                                business needs and aspirations.
-                            </p>
-                            <div>
-                                <button class="secondary-btn"><a href="#">Explore</a></button>
-                                <button class="secondary-btn"><a href="#">Call Now</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="services-item branding">
-                    <div class="services-item-inner">
-                        <div class="service-img-container">
-                            <img src="{% static 'images/service-image.png' %}" alt="service-image">
-                        </div>
-                        <div class="service-content">
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <p>
-                                The One Solution, we are dedicated to transforming your digital dreams into reality. As
-                                a pioneering company at the forefront of web development, digital marketing, and
-                                branding, our mission is to deliver bespoke solutions that resonate with your unique
-                                business needs and aspirations.
-                            </p>
-                            <div>
-                                <button class="secondary-btn"><a href="#">Explore</a></button>
-                                <button class="secondary-btn"><a href="#">Call Now</a></button>
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
                 </div>
             </div>
     </section>
+    
     <section class="about-section">
         <div class="about-container container">
             <h1>Our Library</h1>
@@ -197,7 +137,7 @@
         <div class="library-container library container">
             <div class="library-filter">
                 <!-- <span class="filter-item active" data-filter="all">All</span> -->
-                <span class="filter-item active " data-filter="creative">Creative</span>
+                <span class="filter-item active" data-filter="creative">Creative</span>
                 <span class="filter-item" data-filter="web">WEB Archieves</span>
                 <span class="filter-item" data-filter="story">Story Telling</span>
                 <span class="filter-item" data-filter="case">Case Studies</span>
@@ -205,27 +145,14 @@
 
             <div class="library-card">
                 <!-- gallery item start -->
-                <div class="library-item creative ">
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
-                    <div class="creative-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="img">
-                    </div>
+                <div class="library-item creative">
+                    {% for creative in creatives %}
+                        <div class="creative-img">
+                            <img src="{{ creative.creatives1x.url }}" alt="img">
+                        </div>
+                    {% endfor %}
                 </div>
-                <button class="primary-btn"><a href="#">Know more</a></button>
+                <button class="primary-btn"><a href="">See more</a></button>
             </div>
             <div class="library-card">
                 <!-- gallery item start -->
