@@ -11,6 +11,8 @@
 </head>
 
 <body>
+    
+    
     <nav>
         <navbar class="navbar-section">
 
@@ -37,39 +39,32 @@
             </ul>
         </navbar>
     </nav>
-    <section class="hero-section">
-        <div class="hero-container slider1" id="slider1">
-            <div class="wrapper">
-                <div id="slides" class="slides">
-                    {% for cara in carousel %}
-                    <span class="slide ">
-                        <div class="hero container">
-
-                            <div class="hero-content">
-                                <h1>{{ cara.Heading }}</h1>
-                                <p>
-                                    {{ cara.Paragraph | safe }}
-                                </p>
-                                <button class="primary-btn"><a href="#">Book Now</a></button>
-                            </div>
-                            <div class="hero-image">
-                                <picture>
-                                    <source media="(max-width: 500px)"  srcset="{{ cara.image1x.url }}">
-                                    <source media="(min-width: 1000px)" srcset="{{ cara.image2x.url }}">
-                                    <!-- <source media="(min-width: 1500px)" class="lazyload" srcset="images/slider-1-1500.webp"> -->
-                                    <img src="{{ cara.image3x.url }}" alt="{{ cara.alttext }}">
-                                </picture>
-                            </div>
-                        </div>
-                    </span>
-                    {% endfor %}
+    <section>
+        <div class="carousel">
+            <div class="carousel-items">
+            {% for slide in carousel  %}
+              <div class="carousel-item">
+                <div class="deskt">
+                    <img src="{{ slide.image1x.url }}" alt="{{ slide.alttext }}">
                 </div>
+                <div class="caracontent">
+                    <h1>{{ slide.Heading }}</h1>
+                    <p>{{ slide.Paragraph | safe }}</p>
+                </div>
+                <div class="caraimage">
+                    <img src="{{ slide.image1x.url }}" alt="{{ slide.alttext }}">
+                </div>
+              </div>
+            {% endfor %}
             </div>
-            <a id="prev" class="control prev"></a>
-            <a id="next" class="control next"></a>
-        </div>
+            <div class="buttons">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
+            
+        </div>          
     </section>
-
+    
     <section class="about-card-section">
         <div class="about-card container">
             <div class="about-card-content">
@@ -79,7 +74,7 @@
                 <p>
                     {{ about.Aboutshort }}
                 </p>
-                <button class="primary-btn"><a href="#">Know more</a></button>
+                <button class="primary-btn"><a href="{% url 'about' %}">Know more</a></button>
             </div>
             <div class="about-card-image">
                     
@@ -95,342 +90,114 @@
             </p>
         </div>
     </section>
-    <section class="services-section">
-        <div class="services-container services container">
-            <div class="services-filter">
-                {% for service in services %}
-                <span class="filter-item {% if forloop.first %}active{% endif %}" onclick="openTab(event, '{{ service.slug }}')">{{ service.Service }}</span>
-                {% endfor %}
-            </div>
-            <div class="service-card">
-                {% for service in services %}
-                <div class="services-item" id="{{ service.slug }}" {% if forloop.first %}style="display:block"{% endif %}>
-                    <div class="services-item-inner">
-                        <div class="service-img-container">
-                            <img src="{{ service.image1x.url }}" alt="service-image">
-                        </div>
-                        <div class="service-content">
-                            <h1>{{ service.Title_of_page }}</h1>
-                        <p>{{ service.service_short }}</p>
-                            <div>
-                                <button class="secondary-btn"><a href="#">Explore</a></button>
-                                <button class="secondary-btn"><a href="#">Call Now</a></button>
-                            </div>
-                        </div>
+
+    <section class="services">
+        <div class="tab">
+            {% for service in services %}
+            <button class="tablinks {% if forloop.first %}active{% endif %}" onclick="openTab(event, '{{ service.slug }}')">{{ service.Service }}</button>
+            {% endfor %}
+        </div>
+        
+        {% for service in services %}
+        <div id="{{ service.slug }}" class="tabcontent" {% if forloop.first %}style="display:block"{% endif %}>
+            <div class="wrapper">
+                <div class="partition1">
+                    <img src="{{ service.image1x.url }}" alt="{{ service.Service }}">
+                </div>
+                <div class="partition2">
+                    <h3>{{ service.Service }}</h3>
+                    <p>{{ service.service_short }}</p>
+                    <div class="subserviceholder">
+                        {% for subservice in service.subservice_set.all %}
+                            <a href="{% url 'subservice' service_slug=subservice.service.slug subservice_slug=subservice.slug %}">{{ subservice.Service }}</a>
+                        {% endfor %}
                     </div>
-                </div>
-                {% endfor %}
+                    <button class="primary-btn"><a href="{% url 'service' service.slug %}">Know more</a></button>
                 </div>
             </div>
+        </div>
+        {% endfor %}
     </section>
-    
     <section class="about-section">
         <div class="about-container container">
             <h1>Our Library</h1>
             <p>
-                Action speaks more than words, but we are marketers we have a lot to say and we have much more to show
-                look at some of our work to understand our capability.
+                Action speaks more than words, but we are marketers we have a lot to say and we have much more to show look at some of our work to understand our capability.
             </p>
         </div>
     </section>
-    <section class="library-section">
-        <div class="library-container library container">
-            <div class="library-filter">
-                <!-- <span class="filter-item active" data-filter="all">All</span> -->
-                <span class="filter-item active" data-filter="creative">Creative</span>
-                <span class="filter-item" data-filter="web">WEB Archieves</span>
-                <span class="filter-item" data-filter="story">Story Telling</span>
-                <span class="filter-item" data-filter="case">Case Studies</span>
-            </div>
+    <section class="Library">
+        <div class="librarycarddisplay">
+            <div class="libtab">
+                <!-- <button class="libtablinks">Creatives</button> -->
+                <button class="libtablinks">Case Studies</button>
+                <button class="libtablinks">Custom Web Solutions</button>
+                <button class="libtablinks">Branding</button>
+                <button class="libtablinks">web Design</button>
+              </div>
+              
+              <div class="libtabcontent">
+                <h3>Paris</h3>
+                <p>Paris is the capital of France.</p>
+              </div>
+              
+              <div class="libtabcontent">
+                <h3>Tokyo</h3>
+                <p>Tokyo is the capital of Japan.</p>
+              </div>
 
-            <div class="library-card">
-                <!-- gallery item start -->
-                <div class="library-item creative">
-                    {% for creative in creatives %}
-                        <div class="creative-img">
-                            <img src="{{ creative.creatives1x.url }}" alt="img">
-                        </div>
-                    {% endfor %}
-                </div>
-                <button class="primary-btn"><a href="">See more</a></button>
-            </div>
-            <div class="library-card">
-                <!-- gallery item start -->
-                <div class="library-item ">
-                    <div class="library-item-inner">
-                        <div class="library-img-container">
-                            <img src="{% static 'library-image.png' %}" alt="library-image">
-                        </div>
-                        <div class="library-content">
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <p>
-                                The One Solution, we are dedicated to transforming your digital dreams into reality. As
-                                a pioneering company at the forefront of web development, digital marketing, and
-                                branding, our mission is to deliver bespoke solutions that resonate with your unique
-                                business needs and aspirations.
-                            </p>
-                            <div>
-                                <button class="secondary-btn"><a href="#">Explore</a></button>
-                                <button class="secondary-btn"><a href="#">Call Now</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="library-card">
-                <!-- gallery item start -->
-                <div class="library-item  ">
-                    <div class="library-item-inner">
-                        <div class="library-img-container">
-                            <img src="{% static 'library-image.png' %}" alt="library-image">
-                        </div>
-                        <div class="library-content">
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <p>
-                                The One Solution, we are dedicated to transforming your digital dreams into reality. As
-                                a pioneering company at the forefront of web development, digital marketing, and
-                                branding, our mission is to deliver bespoke solutions that resonate with your unique
-                                business needs and aspirations.
-                            </p>
-                            <div>
-                                <button class="secondary-btn"><a href="#">Explore</a></button>
-                                <button class="secondary-btn"><a href="#">Call Now</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </section>
-    <section class="clients-section">
-        <div class="clients-container container">
-            <h1>Our Clients</h1>
-            <div class="clients-wrapper">
-                <div class="client">
-                    <div class="client-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="IMAGE">
-                    </div>
-                    <div class="client-content">
-                        <h1>Lorem ipsum</h1>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding, our
-                            mission is to deliver bespoke solutions that resonate with your unique business needs and
-                            aspirations.
-                        </p>
-                        <button class="primary-btn"><a href="#">know more</a></button>
-                    </div>
-                </div>
-
-                <div class="client">
-                    <div class="client-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="IMAGE">
-                    </div>
-                    <div class="client-content">
-                        <h1>Lorem ipsum</h1>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding, our
-                            mission is to deliver bespoke solutions that resonate with your unique business needs and
-                            aspirations.
-                        </p>
-                        <button class="primary-btn"><a href="#">know more</a></button>
-                    </div>
-                </div>
-
-                <div class="client">
-                    <div class="client-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="IMAGE">
-                    </div>
-                    <div class="client-content">
-                        <h1>Lorem ipsum</h1>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding, our
-                            mission is to deliver bespoke solutions that resonate with your unique business needs and
-                            aspirations.
-                        </p>
-                        <button class="primary-btn"><a href="#">know more</a></button>
-                    </div>
-                </div>
-
-                <div class="client">
-                    <div class="client-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="IMAGE">
-                    </div>
-                    <div class="client-content">
-                        <h1>Lorem ipsum</h1>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding, our
-                            mission is to deliver bespoke solutions that resonate with your unique business needs and
-                            aspirations.
-                        </p>
-                        <button class="primary-btn"><a href="#">know more</a></button>
-                    </div>
-                </div>
-
-                <div class="client">
-                    <div class="client-img">
-                        <img src="{% static 'icons/Image.svg' %}" alt="IMAGE">
-                    </div>
-                    <div class="client-content">
-                        <h1>Lorem ipsum</h1>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding, our
-                            mission is to deliver bespoke solutions that resonate with your unique business needs and
-                            aspirations.
-                        </p>
-                        <button class="primary-btn"><a href="#">know more</a></button>
-                    </div>
-                </div>
-
-            </div>
+              <div class="libtabcontent">
+                <h3>India</h3>
+                <p>delhi is the capital of India.</p>
+              </div>
         </div>
     </section>
     <section class="about-section">
         <div class="about-container container">
             <h1>What Our Clients Say</h1>
             <p>
-                The One Solution, we are dedicated to transforming your digital dreams into reality. As a pioneering
-                company at the forefront of web development, digital marketing, and branding, our mission is to deliver
-                bespoke solutions that resonate with your unique business needs and aspirations.
+                Let Your Brand work for you, build your brand invest in future of your business by investing in digital
+                marketing and website. learn how to use the techniques to implement to get desired results.
             </p>
         </div>
     </section>
-    <section class="testimonials-section">
-        <div class="testimonials-container ">
-            <div class="slider-container">
-                <div class="slider">
-                    <div class="card">
-                        <div>
-                            <div class="testimonial-img">
-                                <img src="{% static 'icons/Image.svg' %}" alt="img">
-                            </div>
-                            <div class="testimonial-rating">
-                                <p>4.9 <img src="{% static 'icons/star.svg' %}" width="15px" height="15px" alt="star"></p>
-                            </div>
-                        </div>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div>
-                            <div class="testimonial-img">
-                                <img src="{% static 'icons/Image.svg' %}" alt="img">
-                            </div>
-                            <div class="testimonial-rating">
-                                <p>4.9 <img src="{% static 'icons/star.svg' %}" width="15px" height="15px" alt="star"></p>
-                            </div>
-                        </div>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div>
-                            <div class="testimonial-img">
-                                <img src="{% static 'icons/Image.svg' %}" alt="img">
-                            </div>
-                            <div class="testimonial-rating">
-                                <p>4.9 <img src="{% static 'icons/star.svg' %}" width="15px" height="15px" alt="star"></p>
-                            </div>
-                        </div>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div>
-                            <div class="testimonial-img">
-                                <img src="{% static 'icons/Image.svg' %}" alt="img">
-                            </div>
-                            <div class="testimonial-rating">
-                                <p>4.9 <img src="{% static 'icons/star.svg' %}" width="15px" height="15px" alt="star"></p>
-                            </div>
-                        </div>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div>
-                            <div class="testimonial-img">
-                                <img src="{% static 'icons/Image.svg' %}" alt="img">
-                            </div>
-                            <div class="testimonial-rating">
-                                <p>4.9 <img src="{% static 'icons/star.svg' %}" width="15px" height="15px" alt="star"></p>
-                            </div>
-                        </div>
-                        <p>
-                            The One Solution, we are dedicated to transforming your digital dreams into reality. As a
-                            pioneering company at the forefront of web development, digital marketing, and branding
-                        </p>
-                    </div>
-
-                </div>
-                <div class="dots-container">
-                    <button class="dot" data-slide="0"></button>
-                    <button class="dot" data-slide="1"></button>
-                    <button class="dot" data-slide="2"></button>
-                    <button class="dot" data-slide="3"></button>
-                    <button class="dot" data-slide="4"></button>
-                </div>
-                <button class="prev-btn">&#10094;</button>
-                <button class="next-btn">&#10095;</button>
-            </div>
+    <footer>
+        <div class="logoholder">
+            <img class="footerlogo1" src="{% static 'icons/logo.svg' %}" alt="">
+            <img class="footerlogo" src="{% static 'icons/big-logo-bottom.svg' %}" alt="">
         </div>
-    </section>
-    <footer class="footer-section">
-        <div class="footer-container container">
-            <div class="footer-img">
-                <img src="{% static 'icons/big-logo.svg' %}" alt="logo">
-                <img src="{% static 'icons/big-logo-bottom.svg' %}" alt="logo">
+        <div class="sitelinksholder">
+            <div class="navigation">
+                <h4>Site Links</h4>
+                <a href="">Home</a>
+                <a href="">About Us</a>
+                <a href="">Consultancy and Services</a>
+                <a href="">Case Studies</a>
             </div>
-            <div class="footer-content">
-                <ul>
-                    <h4>Site Links</h4>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Consultancy</a></li>
-                    <li><a href="#">Case Studies</a></li>
-                    <li><a href="#">Blogs and News</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-                <ul>
-                    <h4>Contact Links</h4>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                </ul>
-                <ul>
-                    <h4>Social Links</h4>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Home</a></li>
-                </ul>
+            <div class="navigation">
+                <h4>Contact Us</h4>
+                
+                <p>Phone No:</p>
+                <a href="">+91 8792926999</a>
+                <a href="">+91 8088519842</a>
+                <p>Email:</p>
+                <a href="">hello@theonesolution.co.in</a>
+                <a href="">thanuj@theonesolution.co.in</a>
+                <a href="">Nishchal@theonesolution.co.in</a>
+                
             </div>
         </div>
     </footer>
+    <div class="copyright">
+        <p>Copyright © 2024 The One Solution. All rights reserved. Design and Developed by The One Solution</p>
+    </div>
+    
 
     <script src="{% static 'js/index.js' %}"></script>
     <script src="{% static 'js/carousel.js' %}"></script>
+    <script type="application/ld+json">
+        {{ seo.Schema|safe }}
+    </script>
 </body>
 
 </html>

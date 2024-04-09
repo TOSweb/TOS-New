@@ -29,6 +29,7 @@ class SEO(models.Model):
 
 class AboutPage(models.Model):
     Aboutpage_heading = models.CharField(max_length=300)
+    about_cover = models.ImageField(upload_to='images1x/')
     Aboutshort = models.TextField()
     Who_are_we = CKEditor5Field('Who_are_we', config_name='extends')
     Mission = CKEditor5Field('Mission', config_name='extends')
@@ -49,13 +50,14 @@ class Service(models.Model):
     image2x = models.ImageField(upload_to='images2x/')
     image3x = models.ImageField(upload_to='images3x/')
     service_short = models.TextField()
+    servicecontent = CKEditor5Field('Servicecontent', config_name='extends')
     slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.Title_of_page
 
 class Subservice(models.Model):
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='subservice_set')
     Title_of_page = models.CharField(max_length=300, null=True, blank=True)
     Meta_description = models.TextField(null=True, blank=True)
     Meta_keyword = models.TextField(null=True, blank=True)
@@ -68,7 +70,7 @@ class Subservice(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.Title_of_page
+        return self.Service
 
 class SubSubService(models.Model):
     subservice = models.ForeignKey(Subservice, on_delete=models.CASCADE)
@@ -103,19 +105,59 @@ class Projects(models.Model):
     def __str__(self):
         return self.Project
     
-class CreativeCategory(models.Model):
-    name = models.CharField(max_length=100)
+class CaseStudies(models.Model):
+    Title_of_page = models.CharField(max_length=300, null=True, blank=True)
+    Meta_description = models.TextField(null=True, blank=True)
+    Meta_keyword = models.TextField(null=True, blank=True)
+    Schema = models.JSONField(null=True, blank=True)
+    Subservice = models.ForeignKey(Subservice, on_delete=models.CASCADE)
+    Casename = models.CharField(max_length=300)
+    Casevideo = models.URLField(null=True, blank=True)
+    displayimage = models.ImageField(upload_to='images1x/')
+    alttext = models.CharField(max_length=300)
+    clientphoto =  models.ImageField(upload_to='Client/', null=True, blank=True)
+    clientname = models.CharField(max_length=300, null=True, blank=True)
+    Clientdesignation = models.CharField(max_length=300, null=True, blank=True)
+    casestudies = CKEditor5Field('Servicecontent', config_name='extends')
+    short_des = models.TextField()
 
     def __str__(self):
-        return self.name
-
-class Creatives(models.Model):
-    category = models.ForeignKey(CreativeCategory, on_delete=models.CASCADE)
-    creatives1x = models.ImageField(upload_to='images1x/')
-    creatives2x = models.ImageField(upload_to='images2x/', null=True, blank=True)
-    creatives3x = models.ImageField(upload_to='images3x/', null=True, blank=True)
-    alt_text = models.CharField(max_length=500)
-
-    def __str__(self):
-        return self.alt_text
+        return self.Casename
     
+class WebProjects(models.Model):
+    Title_of_page = models.CharField(max_length=300, null=True, blank=True)
+    Meta_description = models.TextField(null=True, blank=True)
+    Meta_keyword = models.TextField(null=True, blank=True)
+    Schema = models.JSONField(null=True, blank=True)
+    Subservice = models.ForeignKey(Subservice, on_delete=models.CASCADE)
+    Casename = models.CharField(max_length=300)
+    Casevideo = models.URLField(null=True, blank=True)
+    displayimage = models.ImageField(upload_to='images1x/')
+    alttext = models.CharField(max_length=300)
+    clientphoto =  models.ImageField(upload_to='Client/', null=True, blank=True)
+    clientname = models.CharField(max_length=300, null=True, blank=True)
+    Clientdesignation = models.CharField(max_length=300, null=True, blank=True)
+    webprojectcontent = CKEditor5Field('Servicecontent', config_name='extends')
+    short_des = models.TextField()
+
+    def __str__(self):
+        return self.Casename
+    
+class BrandingProjects(models.Model):
+    Title_of_page = models.CharField(max_length=300, null=True, blank=True)
+    Meta_description = models.TextField(null=True, blank=True)
+    Meta_keyword = models.TextField(null=True, blank=True)
+    Schema = models.JSONField(null=True, blank=True)
+    Subservice = models.ForeignKey(Subservice, on_delete=models.CASCADE)
+    Casename = models.CharField(max_length=300)
+    Casevideo = models.URLField(null=True, blank=True)
+    displayimage = models.ImageField(upload_to='images1x/')
+    alttext = models.CharField(max_length=300)
+    clientphoto =  models.ImageField(upload_to='Client/', null=True, blank=True)
+    clientname = models.CharField(max_length=300, null=True, blank=True)
+    Clientdesignation = models.CharField(max_length=300, null=True, blank=True)
+    brandingprojectcontent = CKEditor5Field('Servicecontent', config_name='extends')
+    short_des = models.TextField()
+
+    def __str__(self):
+        return self.Casename
